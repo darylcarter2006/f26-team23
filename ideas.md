@@ -88,6 +88,7 @@ Home Page:
                     Liability warning shown (off-campus transactions not recommended, platform not liable for incidents)
                     Requires checkbox acknowledgment before proceeding
             Report:
+                Report a listing -> take down listing until Admin reviews
                 Report a chat/transaction -> feeds into Admin review queue
         Admin:
             Manage Vendor Access:
