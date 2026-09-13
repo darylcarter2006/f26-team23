@@ -1,6 +1,10 @@
-Put all of our ideas here.
+## Title
+Spartan MarketPlace
 
-Any features that each of us want to implement put here including benifits and limitations.
+##Team Members
+Jonathan Hardeman
+
+Daryl Carter
 
 Database: Supabase (postgreSQL)
 Backend: Java, JavaAPi
@@ -18,11 +22,19 @@ Scope Decisions (v1):
     Revenue/financial analytics - deferred, out of scope until payments exist.
     Automated content moderation (banned words/images, auto-approval rules) - deferred, v1 review is manual.
 
+Access Model (Facebook Marketplace pattern):
+    Public Browse (no login required):
+        Anyone landing on the site can search, filter by category, sort, and view listing/product cards (title, price, condition/location) with no account.
+        Viewing a full listing/product detail page (photos, description, stock, existing reviews) is also public.
+    Authenticated Actions (require Login + .edu Verification - see Signup & Eligibility below):
+        Messaging a vendor/seller, submitting a Request to Buy, writing a review, saving/favoriting a listing, viewing "My Listings" or "Messages", creating an Individual Listing, applying to become a Vendor, and reporting a chat/transaction all require a logged-in, .edu-verified account.
+    In short: browsing is open to everyone, acting on something requires signing in first.
+
 Signup & Eligibility:
     Google OAuth Login (open to any Google account)
     .edu Email Verification:
         Confirmation code sent to the student's campus email
-        Must be verified before full marketplace access is granted
+        Must be verified before any Authenticated Action is available (see Access Model above) - browsing itself never requires this
     Every account starts as a Customer. Vendor is an upgraded role, unlocked via application + approval (see Vendor Application below).
 
 Vendor Application:
@@ -37,7 +49,19 @@ Vendor Application:
     Once approved, Vendor can publish Products with no per-listing review (unless restricted by Admin)
 
 Home Page:
-    Google oauth Login:
+    Public Browse (no login required, see Access Model above):
+        Student Marketplace landing page - Sign Up / Log In buttons visible but browsing does not require either
+        Search & Discovery:
+            Browse by Category
+            Filter by Price Range
+            Sort (e.g. Newest)
+        View Listing/Product Cards (title, price, condition/location summary)
+        View Full Listing/Product Detail:
+            Photos
+            Description
+            Stock (Products only)
+            Existing Reviews
+    Google oauth Login (required for everything below - see Access Model above):
         Vendor:
             Profile:
                 Vendor Public Info
@@ -66,22 +90,14 @@ Home Page:
             Previous Interactions:
                 Vendor/Seller Info
                 Product/Listing Info
-            Market Place:
-                Search & Discovery:
-                    Browse by Category
-                    Filter by Price Range
-                Products / Listings:
-                    View Photos
-                    View Prices
-                    View Description
-                    View Stock (Products only)
-                    View Reviews
-                    Write Reviews
-                    Request to Buy (Products only):
-                        Places a temporary hold on stock (decrements immediately, before vendor responds)
-                        Vendor Accepts or Rejects
-                        Accept -> proceeds to in-site messaging to arrange pickup
-                        Reject -> held stock released back
+            Market Place (Authenticated Actions only - browsing the Market Place itself is public, see Access Model above):
+                Write Reviews
+                Request to Buy (Products only):
+                    Places a temporary hold on stock (decrements immediately, before vendor responds)
+                    Vendor Accepts or Rejects
+                    Accept -> proceeds to in-site messaging to arrange pickup
+                    Reject -> held stock released back
+            Saved Items: (seen in the navigation mockup - not yet discussed in detail, confirm scope: a simple favorites/wishlist list of listings)
             Safety & Meetup Location:
                 Recommended On-Campus Meetup Spot (dropdown, Admin-managed list)
                 "Other" option:
@@ -129,3 +145,4 @@ Data Model Notes:
     User: single account, role = Customer (default) or Vendor (upgraded via approved application)
     Listing: individual one-off customer sale (separate table from Product)
     Product: vendor's ongoing stocked item (separate table from Listing)
+    Listing/Product read access (browse + detail view) is public - no auth check required on these GETs. All write/action endpoints (review, request-to-buy, message, save, create listing, report) require an authenticated, .edu-verified session.
