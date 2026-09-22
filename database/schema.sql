@@ -26,6 +26,12 @@ create table meetup_locations (
 -- Accounts
 -- ============================================================================
 
+-- TODO(open issue): there is currently no way to designate a user as SysAdmin.
+-- `vendors` existence marks a Vendor, and `status` below is a moderation state
+-- (active/restricted/banned), not a permission level — neither one can express
+-- "this user is platform staff." Needs a role/flag or a dedicated admins table
+-- before the Admin Dashboard (Manage Vendor Access, Manage User Access, etc.)
+-- can actually gate who's allowed to use it. Flagged 2026-09-22, unresolved.
 create table users (
     id              uuid primary key default gen_random_uuid(),
     email           text not null unique,

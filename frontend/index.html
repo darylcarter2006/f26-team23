@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spartan Marketplace</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="logo" id="logoBtn"><span class="logo-mark">S</span>Spartan Marketplace</button>
+      <div class="search-wrap"><input type="search" id="searchInput" placeholder="Search listings and products..." /></div>
+      <div id="headerRight"><!-- populated by app.js: guest auth buttons, or logged-in user area --></div>
+    </div>
+    <div id="dropdownMount"><!-- profile dropdown, populated by app.js --></div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="filter-group">
+        <h2 class="filter-title">Categories</h2>
+        <ul class="category-list" id="categoryList"><!-- populated by app.js --></ul>
+      </section>
+      <section class="filter-group">
+        <h2 class="filter-title">Price Range</h2>
+        <div class="price-inputs">
+          <input type="number" id="priceMin" placeholder="$0" min="0" />
+          <input type="number" id="priceMax" placeholder="Any" min="0" />
+        </div>
+      </section>
+      <section class="filter-group">
+        <h2 class="filter-title">Sort</h2>
+        <select class="sort-select" id="sortSelect">
+          <option value="newest">Newest</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </section>
+      <button class="btn-outline" id="resetFiltersBtn">Reset Filters</button>
+    </aside>
+
+    <section class="results">
+      <div class="results-header">
+        <p class="results-count" id="resultsCount">Showing 12 listings</p>
+      </div>
+      <div class="card-grid" id="cardGrid"><!-- populated by app.js --></div>
+      <div class="empty-state hidden" id="emptyState">
+        <div class="icon">🔍</div>
+        <p>No listings match your filters.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <strong>Spartan Marketplace</strong> — a campus-only marketplace built for CSC-340. Browsing never requires an account.
+  </footer>
+
+  <div class="demo-switcher" id="demoSwitcher">
+    <span class="label">Demo: view as</span>
+    <button data-role="guest">Guest</button>
+    <button data-role="customer">Customer</button>
+    <button data-role="vendor">Vendor</button>
+    <button data-role="admin">Admin</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="data/mock-listings.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

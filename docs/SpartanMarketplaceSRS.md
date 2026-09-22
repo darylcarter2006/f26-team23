@@ -333,6 +333,8 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
 - Off-campus meetups are allowed but require the customer to acknowledge a liability warning first; the platform is not liable for off-campus incidents.
 - Review-bombing (>10 bad reviews on one vendor within 24 hours) and serial bad-reviewing (>3 bad reviews from one user within a week) are the only automatically detected abuse patterns in v1; all other moderation is admin-initiated.
 
+**⚠ Open issue (unresolved):** There is currently no defined mechanism for designating a user as SysAdmin. The data model distinguishes Customer vs. Vendor (via an approved Vendor Application) and account standing (active/restricted/banned), but has no role or flag for platform staff. This needs to be resolved — a role column, a flag, or a dedicated admins table — before Admin Dashboard access control (US-30 through US-37) can actually be enforced.
+
 ---
 
 ## 5. Milestones (course‑aligned)
