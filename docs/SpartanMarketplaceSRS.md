@@ -149,27 +149,90 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
   ```
 
 ### 2.2 Provider Stories
-- **US-20 — <short title>**  
-  _Story:_ As a provider, I want … so that …  
+- **US-20 — Apply to become a Vendor**
+  _Story:_ As a customer, I want to submit a Vendor Application with my business info, so that I can be considered for an upgrade to a Vendor account.
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: Application submitted for admin review
+    Given a logged-in, .edu-verified customer fills out business name, description, what they're selling, licenses held, desired selling location, team size, and student ID
+    When  they submit the Vendor Application
+    Then  it enters the pending queue on the Admin Dashboard and the customer's account remains a Customer until a decision is made
   ```
 
-- **US-21 — <short title>**  
-  _Story:_ As a provider, I want … so that …  
+- **US-21 — Manage Vendor Profile**
+  _Story:_ As a provider, I want to edit my Vendor's public info, business description, and photos, so that customers browsing the marketplace can learn about my business before buying.
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: Vendor updates their public profile
+    Given an approved vendor is on their Vendor Profile page
+    When  they update the business description and upload a new photo
+    Then  the changes are immediately reflected on the vendor's public-facing profile
   ```
 
-> Provider stories to be completed by Jonathan Hardeman III.
+- **US-22 — Manage Vendor team access**
+  _Story:_ As a provider, I want to add or remove team members on my Vendor account, so that more than one person can help run the business without sharing a single login.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Owner adds a team member
+    Given a vendor account has an owner and no other members
+    When  the owner adds another verified student as a team member
+    Then  that student can access the Vendor Dashboard for that business
+  ```
+
+- **US-23 — Publish and manage a Product catalog**
+  _Story:_ As a provider, I want to create and edit ongoing Products with a price, description, and live stock count, so that customers can browse and buy from my catalog without me re-listing items one at a time.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Vendor updates stock on an existing product
+    Given an approved vendor has a Product with available stock
+    When  they edit the stock count or price from the Vendor Product page
+    Then  the updated values are immediately reflected in Public Browse & Search
+  ```
+
+- **US-24 — Accept or reject a Request to Buy**
+  _Story:_ As a provider, I want to accept or reject a customer's Request to Buy, so that I control what actually leaves my stock.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Vendor accepts a pending request
+    Given a customer's Request to Buy is pending on one of the vendor's products
+    When  the vendor accepts it
+    Then  in-site messaging opens between the vendor and customer to arrange pickup
+
+  Scenario: Vendor rejects a pending request
+    Given a customer's Request to Buy is pending on one of the vendor's products
+    When  the vendor rejects it
+    Then  the held stock is released back to the product's available count
+  ```
+
+- **US-25 — Confirm a completed sale**
+  _Story:_ As a provider, I want to confirm that a sale was completed after meeting the buyer, so that the transaction is closed out and the buyer becomes eligible to leave a review.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Both sides confirm the sale
+    Given a vendor and customer arranged a pickup through in-site messaging
+    When  both the vendor and the customer confirm the sale was completed
+    Then  the transaction is marked complete and a review can be submitted for it
+  ```
+
+- **US-26 — View Customer Analytics**
+  _Story:_ As a provider, I want to see my transaction history, customer feedback, and report history in one place, so that I can understand how my business is doing and spot problems early.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Vendor opens their analytics page
+    Given an approved vendor has completed transactions and received reviews
+    When  they open the Customer Analytics page on their Vendor Dashboard
+    Then  they see their transaction history, customer feedback, and their own report history
+  ```
+
+- **US-27 — Message customers directly**
+  _Story:_ As a provider, I want in-site 1:1 messaging with a customer, so that I can arrange pickup details and answer questions without sharing personal contact info.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Vendor replies to a customer message
+    Given a customer has sent the vendor a message about a product
+    When  the vendor replies from the Vendor Messaging page
+    Then  the customer sees the reply in the same conversation thread
+  ```
 
 ### 2.3 SysAdmin Stories
 - **US-30 — Review Vendor Applications**
@@ -269,6 +332,8 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
 - Login is limited to Google OAuth, and any Authenticated Action additionally requires .edu email verification, regardless of browsing access.
 - Off-campus meetups are allowed but require the customer to acknowledge a liability warning first; the platform is not liable for off-campus incidents.
 - Review-bombing (>10 bad reviews on one vendor within 24 hours) and serial bad-reviewing (>3 bad reviews from one user within a week) are the only automatically detected abuse patterns in v1; all other moderation is admin-initiated.
+
+**⚠ Open issue (unresolved):** There is currently no defined mechanism for designating a user as SysAdmin. The data model distinguishes Customer vs. Vendor (via an approved Vendor Application) and account standing (active/restricted/banned), but has no role or flag for platform staff. This needs to be resolved — a role column, a flag, or a dedicated admins table — before Admin Dashboard access control (US-30 through US-37) can actually be enforced.
 
 ---
 

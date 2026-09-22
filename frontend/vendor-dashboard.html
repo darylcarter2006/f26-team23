@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vendor Dashboard — Spartan Marketplace</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <nav class="sidenav">
+      <div class="sidenav-brand"><span class="mark">S</span> Spartan Marketplace</div>
+      <a class="back-link" href="index.html">← Back to Marketplace</a>
+      <button class="nav-item active" data-nav="dashboard"><span class="left">📊 Dashboard</span></button>
+      <button class="nav-item" data-nav="profile"><span class="left">🏬 Profile</span></button>
+      <button class="nav-item" data-nav="products"><span class="left">📦 Products</span></button>
+      <button class="nav-item" data-nav="requests"><span class="left">🧾 Buy Requests</span><span class="count-badge" id="pendingBadge">3</span></button>
+      <button class="nav-item" data-nav="analytics"><span class="left">📈 Analytics</span></button>
+      <button class="nav-item" data-nav="messages"><span class="left">💬 Messages</span></button>
+    </nav>
+
+    <main class="main">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Vendor Dashboard</h1>
+          <p class="page-sub">Spartan Tech Exchange</p>
+        </div>
+        <div class="vendor-chip"><span class="avatar">JP</span><span class="name">Jordan P.</span></div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-tile">
+          <p class="stat-label">Active Products</p>
+          <p class="stat-value">14</p>
+          <p class="stat-delta">+2 this week</p>
+        </div>
+        <div class="stat-tile">
+          <p class="stat-label">Pending Buy Requests</p>
+          <p class="stat-value accent-warning" id="pendingStatValue">3</p>
+        </div>
+        <div class="stat-tile">
+          <p class="stat-label">Completed Sales (30d)</p>
+          <p class="stat-value">27</p>
+          <p class="stat-delta">+18% vs. last month</p>
+        </div>
+        <div class="stat-tile">
+          <p class="stat-label">Average Rating</p>
+          <p class="stat-value">4.7 ★</p>
+        </div>
+      </div>
+
+      <div class="panel-row">
+        <div class="panel">
+          <p class="panel-title">Sales This Week</p>
+          <p class="panel-sub">Completed transactions per day</p>
+          <div class="chart">
+            <div class="bar-col"><div class="bar" style="height: 30%; background: var(--seq-200);"></div><span class="bar-day">Mon</span></div>
+            <div class="bar-col"><div class="bar" style="height: 45%; background: var(--seq-300);"></div><span class="bar-day">Tue</span></div>
+            <div class="bar-col"><div class="bar" style="height: 38%; background: var(--seq-300);"></div><span class="bar-day">Wed</span></div>
+            <div class="bar-col"><div class="bar" style="height: 60%; background: var(--seq-400);"></div><span class="bar-day">Thu</span></div>
+            <div class="bar-col"><div class="bar" style="height: 72%; background: var(--seq-500);"></div><span class="bar-day">Fri</span></div>
+            <div class="bar-col"><div class="bar" style="height: 100%; background: var(--seq-600);"></div><span class="bar-day">Sat</span></div>
+            <div class="bar-col"><div class="bar" style="height: 55%; background: var(--seq-400);"></div><span class="bar-day">Sun</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p class="panel-title">Recent Customer Feedback</p>
+          <p class="panel-sub">Latest reviews across your products</p>
+          <table>
+            <tr><th>Customer</th><th>Product</th><th>Rating</th></tr>
+            <tr><td>Priya K.</td><td>Headphones</td><td>★★★★★</td></tr>
+            <tr><td>Chris D.</td><td>Calculator</td><td>★★★★☆</td></tr>
+            <tr><td>Emily S.</td><td>Hoodie</td><td>★★★★★</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <p class="panel-title">Pending Buy Requests</p>
+        <p class="panel-sub">Accept to move to in-site messaging, or reject to release the held stock</p>
+        <table id="requestsTable">
+          <tr><th>Buyer</th><th>Product</th><th>Qty</th><th>Requested</th><th>Status</th><th></th></tr>
+          <tr data-row-id="r1">
+            <td>Marcus W.</td><td>Noise-Cancelling Study Headphones</td><td>1</td><td>2 hrs ago</td>
+            <td class="status-cell"><span class="status-chip pending">⏳ Pending</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="mini-btn accept" data-action="accept">Accept</button>
+                <button class="mini-btn reject" data-action="reject">Reject</button>
+              </div>
+            </td>
+          </tr>
+          <tr data-row-id="r2">
+            <td>Alex T.</td><td>Refurbished TI-84 Plus CE Calculator</td><td>1</td><td>5 hrs ago</td>
+            <td class="status-cell"><span class="status-chip pending">⏳ Pending</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="mini-btn accept" data-action="accept">Accept</button>
+                <button class="mini-btn reject" data-action="reject">Reject</button>
+              </div>
+            </td>
+          </tr>
+          <tr data-row-id="r3">
+            <td>Jordan H.</td><td>Spartan Athletics Hoodie</td><td>2</td><td>1 day ago</td>
+            <td class="status-cell"><span class="status-chip accepted">✓ Accepted</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="mini-btn message" data-action="message">Message</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const toastEl = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+    }
+
+    // Side nav — only Dashboard is a built page in this demo; the rest are
+    // placeholders so the nav reads as complete during the walkthrough.
+    document.querySelectorAll(".nav-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.dataset.nav === "dashboard") return;
+        showToast(`${btn.textContent.trim()} isn't built yet in this demo.`);
+      });
+    });
+
+    let pendingCount = 2;
+    const pendingBadge = document.getElementById("pendingBadge");
+    const pendingStatValue = document.getElementById("pendingStatValue");
+
+    function updatePendingCount(delta) {
+      pendingCount += delta;
+      pendingBadge.textContent = pendingCount;
+      pendingStatValue.textContent = pendingCount;
+      if (pendingCount === 0) {
+        pendingBadge.style.display = "none";
+      }
+    }
+
+    document.querySelectorAll("#requestsTable [data-action]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const action = btn.dataset.action;
+        const row = btn.closest("tr");
+        const statusCell = row.querySelector(".status-cell");
+        const actionsCell = btn.closest(".row-actions");
+        const buyer = row.children[0].textContent;
+
+        if (action === "accept") {
+          statusCell.innerHTML = '<span class="status-chip accepted">✓ Accepted</span>';
+          actionsCell.innerHTML = '<button class="mini-btn message" data-action="message">Message</button>';
+          actionsCell.querySelector("[data-action='message']").addEventListener("click", () =>
+            showToast("Messaging isn't wired up yet in this demo.")
+          );
+          updatePendingCount(-1);
+          showToast(`Accepted ${buyer}'s request — moved to messaging.`);
+        } else if (action === "reject") {
+          statusCell.innerHTML = '<span class="status-chip rejected">✕ Rejected</span>';
+          actionsCell.innerHTML = '<button class="mini-btn reject" disabled>Rejected</button>';
+          updatePendingCount(-1);
+          showToast(`Rejected ${buyer}'s request — stock hold released.`);
+        } else if (action === "message") {
+          showToast("Messaging isn't wired up yet in this demo.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

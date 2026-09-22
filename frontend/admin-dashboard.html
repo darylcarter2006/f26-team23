@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Dashboard — Spartan Marketplace</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="admin-app">
+  <div class="app">
+    <nav class="sidenav">
+      <div class="sidenav-brand"><span class="mark">S</span> Spartan Marketplace</div>
+      <a class="back-link" href="index.html">← Back to Marketplace</a>
+      <button class="nav-item active" data-view="overview"><span class="left">📊 Overview</span></button>
+      <button class="nav-item" data-view="applications"><span class="left">🏬 Vendor Applications</span><span class="count-badge" id="appsBadge">3</span></button>
+      <button class="nav-item" data-view="other"><span class="left">👤 User Access</span></button>
+      <button class="nav-item" data-view="other"><span class="left">🚩 Moderation Queue</span><span class="count-badge">7</span></button>
+      <button class="nav-item" data-view="other"><span class="left">📍 Meetup Locations</span></button>
+      <button class="nav-item" data-view="other"><span class="left">📈 Usage Statistics</span></button>
+    </nav>
+
+    <main class="main">
+      <!-- ================= Overview ================= -->
+      <section id="overviewView">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Admin Dashboard</h1>
+            <p class="page-sub">Platform overview — health, growth, and moderation load</p>
+          </div>
+          <div class="admin-chip"><span class="avatar">SK</span><span class="name">Sam K.</span></div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-tile">
+            <p class="stat-label">Active Users (30d)</p>
+            <p class="stat-value">412</p>
+            <p class="stat-delta">+9% vs. last month</p>
+          </div>
+          <div class="stat-tile">
+            <p class="stat-label">New Signups (30d)</p>
+            <p class="stat-value">58</p>
+            <p class="stat-delta">+14% vs. last month</p>
+          </div>
+          <div class="stat-tile">
+            <p class="stat-label">Pending Review Queue</p>
+            <p class="stat-value accent-warning" id="overviewPendingValue">7</p>
+          </div>
+          <div class="stat-tile">
+            <p class="stat-label">Auto-Flagged for Investigation</p>
+            <p class="stat-value accent-critical">2</p>
+          </div>
+        </div>
+
+        <div class="panel-row">
+          <div class="panel">
+            <p class="panel-title">Active Users &amp; Signups Over Time</p>
+            <p class="panel-sub">Last 7 days</p>
+            <div class="chart">
+              <div class="bar-col"><div class="bar" style="height: 55%; background: var(--seq-400);"></div><span class="bar-day">Mon</span></div>
+              <div class="bar-col"><div class="bar" style="height: 62%; background: var(--seq-400);"></div><span class="bar-day">Tue</span></div>
+              <div class="bar-col"><div class="bar" style="height: 58%; background: var(--seq-400);"></div><span class="bar-day">Wed</span></div>
+              <div class="bar-col"><div class="bar" style="height: 70%; background: var(--seq-500);"></div><span class="bar-day">Thu</span></div>
+              <div class="bar-col"><div class="bar" style="height: 78%; background: var(--seq-500);"></div><span class="bar-day">Fri</span></div>
+              <div class="bar-col"><div class="bar" style="height: 100%; background: var(--seq-600);"></div><span class="bar-day">Sat</span></div>
+              <div class="bar-col"><div class="bar" style="height: 90%; background: var(--seq-600);"></div><span class="bar-day">Sun</span></div>
+            </div>
+            <div class="chart-legend"><span><span class="dot" style="background: var(--seq-500);"></span>Active users</span></div>
+          </div>
+
+          <div class="panel">
+            <p class="panel-title">Flagged for Investigation</p>
+            <p class="panel-sub">Automatic review-bombing / serial-bad-reviewer detection</p>
+            <div class="flag-list">
+              <div class="flag-item">
+                <span class="icon">🚨</span>
+                <div class="body">
+                  <p class="title">Review-bombing suspected</p>
+                  <p class="desc">Campus Dorm Supply Co. received 11 bad reviews in the last 24 hours</p>
+                </div>
+              </div>
+              <div class="flag-item">
+                <span class="icon">🚨</span>
+                <div class="body">
+                  <p class="title">Serial bad-reviewer pattern</p>
+                  <p class="desc">User "d.torres22" left 4 bad reviews across different vendors this week</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p class="panel-title">Pending Vendor Applications</p>
+          <p class="panel-sub">Review business info and approve or reject to grant Vendor access</p>
+          <table id="overviewAppsTable">
+            <tr><th>Applicant</th><th>Business Name</th><th>What They're Selling</th><th>Submitted</th><th></th></tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= Vendor Applications ================= -->
+      <section id="applicationsView" class="hidden">
+        <div class="page-header">
+          <div>
+            <p class="breadcrumb">Admin Dashboard / Vendor Applications</p>
+            <h1 class="page-title">Vendor Applications</h1>
+            <p class="page-sub" id="applicationsSub">3 pending — review business info and approve or reject to grant Vendor access</p>
+          </div>
+          <div class="admin-chip"><span class="avatar">SK</span><span class="name">Sam K.</span></div>
+        </div>
+
+        <div class="queue-list" id="queueList"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= Review modal ================= -->
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2>Review Vendor Application</h2>
+          <span class="applicant-meta" id="modalApplicantMeta"></span>
+        </div>
+        <button class="modal-close" id="modalCloseBtn">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"><!-- populated by JS --></div>
+      <div class="modal-footer">
+        <button class="modal-btn reject" id="modalRejectBtn">Reject</button>
+        <button class="modal-btn approve" id="modalApproveBtn">Approve — Grant Vendor Access</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const toastEl = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+    }
+
+    // ---- Applications data (mirrors vendor_applications table shape) ----
+    let applications = [
+      {
+        id: "a1",
+        applicant: "Devon R.",
+        email: "devon.r@uncg.edu",
+        eduVerified: true,
+        businessName: "Campus Snack Co.",
+        description: "Dorm-friendly snack boxes and drinks, delivered same-day to residence halls. Restocked weekly from a local wholesale supplier.",
+        whatSelling: "Packaged snacks, drinks, and study-night bundles",
+        licenses: "None — pre-packaged goods only, no license required",
+        teamSize: "2 people",
+        location: "Near Moran Commons",
+        studentId: "•••••••1234",
+        submitted: "3 hrs ago",
+      },
+      {
+        id: "a2",
+        applicant: "Nia B.",
+        email: "n.brooks@uncg.edu",
+        eduVerified: true,
+        businessName: "Print & Bind Co.",
+        description: "On-campus printing, binding, and poster services for class projects and presentations, with 24-hour turnaround.",
+        whatSelling: "Printing services",
+        licenses: "None required",
+        teamSize: "1 person",
+        location: "Near the Library",
+        studentId: "•••••••5821",
+        submitted: "1 day ago",
+      },
+      {
+        id: "a3",
+        applicant: "Priya K.",
+        email: "p.kapoor@uncg.edu",
+        eduVerified: true,
+        businessName: "Dorm Decor Co.",
+        description: "Handmade string lights, wall tapestries, and small decor pieces made to order for dorm rooms.",
+        whatSelling: "Handmade dorm decorations",
+        licenses: "None required",
+        teamSize: "3 people",
+        location: "Near Moran Commons",
+        studentId: "•••••••9042",
+        submitted: "2 days ago",
+      },
+    ];
+
+    let selectedAppId = applications[0].id;
+
+    function initials(name) {
+      return name.split(" ").filter(Boolean).map((p) => p[0]).join("").toUpperCase().slice(0, 2);
+    }
+
+    function updateBadges() {
+      const count = applications.length;
+      document.getElementById("appsBadge").textContent = count;
+      document.getElementById("appsBadge").style.display = count === 0 ? "none" : "";
+      document.getElementById("applicationsSub").textContent =
+        count === 0
+          ? "No pending applications."
+          : `${count} pending — review business info and approve or reject to grant Vendor access`;
+    }
+
+    function renderOverviewTable() {
+      const table = document.getElementById("overviewAppsTable");
+      const rows = applications
+        .map(
+          (a) => `
+        <tr>
+          <td>${a.applicant}</td><td>${a.businessName}</td><td>${a.whatSelling}</td><td>${a.submitted}</td>
+          <td><div class="row-actions">
+            <button class="mini-btn approve" data-quick-approve="${a.id}">Approve</button>
+            <button class="mini-btn reject" data-quick-reject="${a.id}">Reject</button>
+          </div></td>
+        </tr>`
+        )
+        .join("");
+      table.innerHTML =
+        `<tr><th>Applicant</th><th>Business Name</th><th>What They're Selling</th><th>Submitted</th><th></th></tr>` +
+        (rows || `<tr><td colspan="5" style="text-align:center; color: var(--ink-muted); padding: 20px 0;">No pending applications.</td></tr>`);
+
+      table.querySelectorAll("[data-quick-approve]").forEach((btn) =>
+        btn.addEventListener("click", () => decideApplication(btn.dataset.quickApprove, "approved"))
+      );
+      table.querySelectorAll("[data-quick-reject]").forEach((btn) =>
+        btn.addEventListener("click", () => decideApplication(btn.dataset.quickReject, "rejected"))
+      );
+    }
+
+    function renderQueue() {
+      const list = document.getElementById("queueList");
+      if (applications.length === 0) {
+        list.innerHTML = `<div class="queue-empty">No pending vendor applications. 🎉</div>`;
+        return;
+      }
+      list.innerHTML = applications
+        .map(
+          (a) => `
+        <div class="queue-row ${a.id === selectedAppId ? "selected" : ""}" data-row="${a.id}">
+          <div class="who">
+            <span class="q-avatar">${initials(a.applicant)}</span>
+            <div>
+              <p class="q-name">${a.applicant} — ${a.businessName}</p>
+              <p class="q-meta">${a.whatSelling} · Submitted ${a.submitted}</p>
+            </div>
+          </div>
+          <button class="review-btn" data-review="${a.id}">${a.id === selectedAppId ? "Reviewing" : "Review"}</button>
+        </div>`
+        )
+        .join("");
+
+      list.querySelectorAll("[data-review]").forEach((btn) =>
+        btn.addEventListener("click", () => openModal(btn.dataset.review))
+      );
+    }
+
+    function openModal(appId) {
+      const app = applications.find((a) => a.id === appId);
+      if (!app) return;
+      selectedAppId = appId;
+      renderQueue();
+
+      document.getElementById("modalApplicantMeta").innerHTML =
+        `${app.applicant} · ${app.email}${app.eduVerified ? '<span class="verified-chip">✓ .edu Verified</span>' : ""}`;
+
+      document.getElementById("modalBody").innerHTML = `
+        <div class="field-group">
+          <p class="field-label">Business Name</p>
+          <p class="field-value">${app.businessName}</p>
+        </div>
+        <div class="field-group">
+          <p class="field-label">Business Description</p>
+          <p class="field-value">${app.description}</p>
+        </div>
+        <div class="field-group">
+          <p class="field-label">What They're Selling</p>
+          <p class="field-value">${app.whatSelling}</p>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <p class="field-label">Licenses Held</p>
+            <p class="field-value">${app.licenses}</p>
+          </div>
+          <div class="field-group">
+            <p class="field-label">Team Size</p>
+            <p class="field-value">${app.teamSize}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <p class="field-label">Desired Selling Location</p>
+            <p class="field-value">${app.location}</p>
+          </div>
+          <div class="field-group">
+            <p class="field-label">Student ID</p>
+            <p class="field-value">${app.studentId}</p>
+          </div>
+        </div>`;
+
+      document.getElementById("modalBackdrop").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").classList.add("hidden");
+    }
+
+    function decideApplication(appId, decision) {
+      const app = applications.find((a) => a.id === appId);
+      if (!app) return;
+      applications = applications.filter((a) => a.id !== appId);
+
+      if (selectedAppId === appId) {
+        selectedAppId = applications.length ? applications[0].id : null;
+      }
+
+      updateBadges();
+      renderOverviewTable();
+      renderQueue();
+      closeModal();
+
+      showToast(
+        decision === "approved"
+          ? `Approved ${app.businessName} — Vendor access granted to ${app.applicant}.`
+          : `Rejected ${app.businessName}'s application.`
+      );
+    }
+
+    document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+    document.getElementById("modalBackdrop").addEventListener("click", (e) => {
+      if (e.target.id === "modalBackdrop") closeModal();
+    });
+    document.getElementById("modalApproveBtn").addEventListener("click", () => decideApplication(selectedAppId, "approved"));
+    document.getElementById("modalRejectBtn").addEventListener("click", () => decideApplication(selectedAppId, "rejected"));
+
+    // ---- Side nav view switching ----
+    const overviewView = document.getElementById("overviewView");
+    const applicationsView = document.getElementById("applicationsView");
+    document.querySelectorAll(".nav-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const view = btn.dataset.view;
+        if (view === "other") {
+          showToast(`${btn.textContent.trim()} isn't built yet in this demo.`);
+          return;
+        }
+        document.querySelectorAll(".nav-item").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        overviewView.classList.toggle("hidden", view !== "overview");
+        applicationsView.classList.toggle("hidden", view !== "applications");
+      });
+    });
+
+    // ---- Init ----
+    updateBadges();
+    renderOverviewTable();
+    renderQueue();
+  </script>
+</body>
+</html>
