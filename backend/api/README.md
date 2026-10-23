@@ -2,7 +2,7 @@
 
 Spring Boot 3 + JPA + PostgreSQL REST API for the Spartan Marketplace (CSC 340 team project).
 
-**Live URL:** _add the Render URL here after the first deploy_ (e.g. `https://spartan-marketplace-api.onrender.com`)
+**Live URL:** https://spartan-marketplace-api.onrender.com
 
 > **Cold start:** the free Render instance sleeps when idle, so the first request can take up to a minute. Wake it (e.g. `GET /api/categories`) before presenting.
 
