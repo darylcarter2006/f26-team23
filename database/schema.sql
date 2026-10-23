@@ -1,3 +1,7 @@
+-- NOTE: the Spring Boot API (backend/api) creates its own tables from the JPA entities
+-- (ddl-auto=update) and is the source of truth for the deployed Neon database. This file
+-- is the original design reference; the API adds users.role, display_name, bio,
+-- review_replies, admin_tasks and the 'expired' buy-request status shown at the bottom.
 -- ============================================================================
 -- Spartan Marketplace — Core schema (v1)
 -- Covers: Core Data Model, Vendor Experience, Admin Experience domains
@@ -321,6 +325,40 @@ create trigger transactions_complete_on_dual_confirmation
     execute function complete_transaction_on_dual_confirmation();
 
 -- ============================================================================
+-- Added by the Backend API milestone
+-- ============================================================================
+
+-- resolves the open "no way to designate a SysAdmin" issue
+alter table users add column role text not null default 'customer'
+    check (role in ('customer', 'admin'));
+alter table users add column display_name text;
+alter table users add column bio text;
+
+alter table buy_requests drop constraint buy_requests_status_check;
+alter table buy_requests add constraint buy_requests_status_check
+    check (status in ('pending', 'accepted', 'rejected', 'expired'));
+
+-- a vendor's public reply under a review
+create table review_replies (
+    id         uuid primary key default gen_random_uuid(),
+    review_id  uuid not null unique references reviews (id) on delete cascade,
+    author_id  uuid not null references users (id),
+    body       text not null,
+    created_at timestamptz not null default now()
+);
+
+-- auto-created admin follow-ups (review-bombing, serial bad reviewer)
+create table admin_tasks (
+    id         uuid primary key default gen_random_uuid(),
+    type       text not null check (type in ('review_bombing', 'serial_bad_reviewer')),
+    vendor_id  uuid references vendors (id),
+    user_id    uuid references users (id),
+    note       text,
+    status     text not null default 'open' check (status in ('open', 'resolved')),
+    created_at timestamptz not null default now()
+);
+
+-- ============================================================================
 -- Row Level Security — deny-all backstop
 -- ============================================================================
 -- All real access control lives in the Java backend, which always connects
@@ -348,3 +386,5 @@ alter table transactions         enable row level security;
 alter table buy_requests         enable row level security;
 alter table reviews              enable row level security;
 alter table reports              enable row level security;
+alter table review_replies       enable row level security;
+alter table admin_tasks          enable row level security;
