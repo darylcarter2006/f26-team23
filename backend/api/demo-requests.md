@@ -1,5 +1,7 @@
 # Demo setup requests
 
+> **Note:** the admin user, the demo customer (id `dd4ef416-7758-40ad-a106-d2a3fb4d9cc3`), 4 categories and 6 listings (5 LIVE, 1 PENDING_REVIEW) already exist in the database, so steps 1-3 only need to be run on a fresh database (repeating them returns a 409). Admin id for the `X-Admin-Id` header: `827ad0b6-ae12-4a9a-b0f3-43ac40664e4b`.
+
 Run these once, in order, from your API client against `http://localhost:8080`.
 Set `ADMIN_EMAILS` to the admin email **before** starting the app and before step 1.
 Replace each `<PLACEHOLDER>` with the `id` returned by an earlier call.

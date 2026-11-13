@@ -1,7 +1,7 @@
 // Create listing page: loads categories and submits a new listing to the API.
 
 // Real login is not built yet, so every listing is created by this one demo user.
-const DEMO_SELLER_USER_ID = "<PASTE_CUSTOMER_USER_ID_HERE>";
+const DEMO_SELLER_USER_ID = "dd4ef416-7758-40ad-a106-d2a3fb4d9cc3";
 
 const createListingForm = document.getElementById("createListingForm");
 const titleInput = document.getElementById("titleInput");
