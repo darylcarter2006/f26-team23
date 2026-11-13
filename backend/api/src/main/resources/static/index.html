@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spartan Marketplace</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">S</span>Spartan Marketplace</a>
+      <form class="search-wrap" id="searchForm">
+        <input type="search" id="searchInput" placeholder="Search listings..." />
+      </form>
+      <nav class="auth-buttons">
+        <a class="btn btn-ghost" href="index.html">Home</a>
+        <a class="btn btn-primary" href="create-listing.html">Create Listing</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="filter-group">
+        <h2 class="filter-title">Categories</h2>
+        <ul class="category-list" id="categoryList"></ul>
+      </section>
+      <section class="filter-group">
+        <h2 class="filter-title">Price Range</h2>
+        <div class="price-inputs">
+          <input type="number" id="minimumPriceInput" placeholder="$0" min="0" step="1" />
+          <input type="number" id="maximumPriceInput" placeholder="Any" min="0" step="1" />
+        </div>
+      </section>
+      <section class="filter-group">
+        <h2 class="filter-title">Sort</h2>
+        <select class="sort-select" id="sortSelect">
+          <option value="newest">Newest</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </section>
+      <button class="btn-outline" id="applyFiltersButton">Apply Filters</button>
+    </aside>
+
+    <section class="results">
+      <p class="error-banner hidden" id="errorMessageBanner"></p>
+      <div class="results-header">
+        <p class="results-count" id="resultsCount"></p>
+      </div>
+      <div class="card-grid" id="listingCardsContainer"></div>
+      <div class="empty-state hidden" id="emptyState">
+        <p>No listings match your filters.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <strong>Spartan Marketplace</strong> — a campus-only marketplace built for CSC-340.
+  </footer>
+
+  <script src="api-helper.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
