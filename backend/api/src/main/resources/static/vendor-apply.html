@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Become a Vendor - Spartan Marketplace</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="vendor-pages.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">S</span>Spartan Marketplace</a>
+      <div class="search-wrap"></div>
+      <nav class="auth-buttons">
+        <a class="btn btn-ghost" href="index.html">Home</a>
+        <a class="btn btn-primary" href="vendor-apply.html">Become a Vendor</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="panel">
+      <h1>Apply to Become a Vendor</h1>
+      <p class="page-sub-text">Vendors can post products with a live stock count. An admin reviews every application before it is approved.</p>
+      <p class="error-banner hidden" id="formErrorBanner"></p>
+      <p class="success-banner hidden" id="formSuccessBanner"></p>
+      <form class="listing-form" id="vendorApplicationForm" novalidate>
+        <label for="businessNameInput">Business name <span class="required-mark">*</span></label>
+        <input type="text" id="businessNameInput" maxlength="255" />
+
+        <label for="businessDescriptionInput">Business description</label>
+        <textarea id="businessDescriptionInput" rows="3" maxlength="2000"></textarea>
+
+        <label for="whatSellingInput">What are you selling? <span class="required-mark">*</span></label>
+        <input type="text" id="whatSellingInput" />
+
+        <label for="licensesHeldInput">Licenses held (optional)</label>
+        <input type="text" id="licensesHeldInput" />
+
+        <div class="form-row">
+          <div>
+            <label for="desiredLocationInput">Desired selling location</label>
+            <input type="text" id="desiredLocationInput" />
+          </div>
+          <div>
+            <label for="teamSizeInput">Team size</label>
+            <input type="number" id="teamSizeInput" min="1" step="1" />
+          </div>
+        </div>
+
+        <label for="studentIdInput">Student ID <span class="required-mark">*</span></label>
+        <input type="text" id="studentIdInput" />
+
+        <button type="submit" class="btn btn-primary" id="submitApplicationButton">Submit Application</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="api-helper.js"></script>
+  <script src="demo-identity.js"></script>
+  <script src="vendor-apply.js"></script>
+</body>
+</html>
