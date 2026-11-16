@@ -1,0 +1,25 @@
+/* Extra styles for the vendor application, admin applications and vendor products pages. */
+
+.page-content.wide { max-width: 1040px; }
+.page-sub-text { color: var(--ink-secondary); font-size: 14px; margin: 0 0 16px; }
+
+.panel + .panel { margin-top: 20px; }
+.panel h2 { margin: 0 0 4px; color: var(--navy); font-size: 18px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field-hint { color: var(--ink-muted); font-size: 12px; margin: 4px 0 0; }
+.required-mark { color: var(--crimson); }
+
+.toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.toolbar label { font-weight: 600; font-size: 14px; }
+.toolbar select { padding: 8px; border-radius: 6px; border: 1px solid var(--baseline); font-family: inherit; font-size: 14px; }
+
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table td.actions-cell { white-space: nowrap; }
+.data-table .muted { color: var(--ink-muted); font-size: 12px; }
+
+.button-row { display: flex; gap: 10px; margin-top: 18px; }
+.button-row .btn { margin-top: 0; }
+.btn-secondary { background: #fff; color: var(--navy); border-color: var(--navy); }
+
+.status-chip.approved { background: #E4F7E4; color: #0C6E0C; }

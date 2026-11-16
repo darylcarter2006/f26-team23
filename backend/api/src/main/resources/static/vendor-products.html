@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vendor Products - Spartan Marketplace</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="vendor-pages.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">S</span>Spartan Marketplace</a>
+      <div class="search-wrap"></div>
+      <nav class="auth-buttons">
+        <a class="btn btn-ghost" href="index.html">Home</a>
+        <a class="btn btn-primary" href="vendor-products.html">My Products</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content wide">
+    <p class="error-banner hidden" id="errorBanner"></p>
+    <p class="success-banner hidden" id="successBanner"></p>
+
+    <div class="panel">
+      <h1>Vendor Products</h1>
+      <p class="page-sub-text">Post products with a live stock count. Active products appear in the public marketplace.</p>
+      <div class="toolbar">
+        <label for="vendorSelect">Vendor</label>
+        <select id="vendorSelect"></select>
+      </div>
+
+      <table class="data-table" id="productsTable">
+        <thead>
+          <tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Updated</th><th></th></tr>
+        </thead>
+        <tbody id="productsTableBody"></tbody>
+      </table>
+      <div class="empty-state hidden" id="emptyState">
+        <p>This vendor has no active products yet. Add one below.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 id="formHeading">Add a Product</h2>
+      <form class="listing-form" id="productForm" novalidate>
+        <label for="titleInput">Title <span class="required-mark">*</span></label>
+        <input type="text" id="titleInput" maxlength="255" />
+
+        <label for="descriptionInput">Description</label>
+        <textarea id="descriptionInput" rows="3" maxlength="2000"></textarea>
+
+        <div class="form-row">
+          <div>
+            <label for="priceInput">Price (whole dollars) <span class="required-mark">*</span></label>
+            <input type="number" id="priceInput" step="1" min="0" />
+          </div>
+          <div>
+            <label for="stockInput">Stock count <span class="required-mark">*</span></label>
+            <input type="number" id="stockInput" step="1" min="0" />
+          </div>
+        </div>
+
+        <label for="categorySelect">Category</label>
+        <select id="categorySelect"></select>
+
+        <label for="photoUrlInput">Photo URL (optional)</label>
+        <input type="url" id="photoUrlInput" />
+
+        <div class="button-row">
+          <button type="submit" class="btn btn-primary" id="saveProductButton">Add Product</button>
+          <button type="button" class="btn btn-secondary hidden" id="cancelEditButton">Cancel Edit</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="api-helper.js"></script>
+  <script src="vendor-products.js"></script>
+</body>
+</html>
